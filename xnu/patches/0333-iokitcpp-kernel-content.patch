@@ -1,0 +1,32 @@
+diff --git a/iokit/DriverKit/IORPC.h b/iokit/DriverKit/IORPC.h
+index 3ded78c..b44a94f 100644
+--- a/iokit/DriverKit/IORPC.h
++++ b/iokit/DriverKit/IORPC.h
+@@ -224,6 +224,11 @@ struct IORPC {
+ 	IORPCMessageMach * reply;
+ 	uint32_t           sendSize;
+ 	uint32_t           replySize;
++#ifdef KERNEL
++	/* The newer iig that ships with Xcode 16 and later writes the kernel-side content pointer;
++	 * xnu-10063 added it under the same guard. User-space IORPC keeps its old size. */
++	IORPCMessage     * kernelContent;
++#endif /* KERNEL */
+ };
+ typedef struct IORPC IORPC;
+ 
+diff --git a/iokit/IOKit/IORPC.h b/iokit/IOKit/IORPC.h
+index 3ded78c..b44a94f 100644
+--- a/iokit/IOKit/IORPC.h
++++ b/iokit/IOKit/IORPC.h
+@@ -224,6 +224,11 @@ struct IORPC {
+ 	IORPCMessageMach * reply;
+ 	uint32_t           sendSize;
+ 	uint32_t           replySize;
++#ifdef KERNEL
++	/* The newer iig that ships with Xcode 16 and later writes the kernel-side content pointer;
++	 * xnu-10063 added it under the same guard. User-space IORPC keeps its old size. */
++	IORPCMessage     * kernelContent;
++#endif /* KERNEL */
+ };
+ typedef struct IORPC IORPC;
+ 
